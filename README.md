@@ -5,8 +5,7 @@ A lightwegit Goroutine pool.
 ## Example
 
 ```go
-    numCPUs := runtime.NumCPU()
-    runtime.GOMAXPROCS(numCPUs)
+    runtime.GOMAXPROCS(runtime.NumCPU())
 
     // new a Goroutine pool with 100 workers and 50 job queue
     pool := grpool.NewPool(100, 50)
