@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"runtime"
 
-	"github.com/ivpusic/grpool"
+	"github.com/TimothyYe/gpool"
 )
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	// new a Goroutine pool with 100 workers and 50 job queue
-	pool := grpool.NewPool(100, 50)
+	pool := gpool.NewPool(100, 50)
 	defer pool.Release()
 
 	// set 10 jobs that the pool should wait
