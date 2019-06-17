@@ -20,7 +20,7 @@ A lightwegit Goroutine pool.
 
         pool.JobQueue <- func() {
             defer pool.JobDone()
-            fmt.Printf("hello %d\n", count)
+            fmt.Printf("Pool job: %d\n", count)
         }
     }
 
