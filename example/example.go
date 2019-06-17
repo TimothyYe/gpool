@@ -14,11 +14,11 @@ func main() {
 	pool := gpool.NewPool(100, 50)
 	defer pool.Release()
 
-	// set 10 jobs that the pool should wait
-	pool.WaitCount(10)
+	// set 20 jobs that the pool should wait
+	pool.WaitCount(20)
 
 	// submit one or more jobs to pool
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 20; i++ {
 		count := i
 
 		pool.JobQueue <- func() {
