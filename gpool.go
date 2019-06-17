@@ -6,7 +6,7 @@ import "sync"
 type worker struct {
 	workerPool chan *worker
 	jobChannel chan Job
-	stop       chan struct{}
+	stop       chan bool
 }
 
 func (w *worker) start() {
@@ -20,7 +20,7 @@ func (w *worker) start() {
 			case job = <-w.jobChannel:
 				job()
 			case <-w.stop:
-				w.stop <- struct{}{}
+				w.stop <- true
 				return
 			}
 		}
@@ -31,7 +31,7 @@ func newWorker(pool chan *worker) *worker {
 	return &worker{
 		workerPool: pool,
 		jobChannel: make(chan Job),
-		stop:       make(chan struct{}),
+		stop:       make(chan bool),
 	}
 }
 
@@ -39,7 +39,7 @@ func newWorker(pool chan *worker) *worker {
 type dispatcher struct {
 	workerPool chan *worker
 	jobQueue   chan Job
-	stop       chan struct{}
+	stop       chan bool
 }
 
 func (d *dispatcher) dispatch() {
@@ -52,11 +52,11 @@ func (d *dispatcher) dispatch() {
 			for i := 0; i < cap(d.workerPool); i++ {
 				worker := <-d.workerPool
 
-				worker.stop <- struct{}{}
+				worker.stop <- true
 				<-worker.stop
 			}
 
-			d.stop <- struct{}{}
+			d.stop <- true
 			return
 		}
 	}
@@ -66,7 +66,7 @@ func newDispatcher(workerPool chan *worker, jobQueue chan Job) *dispatcher {
 	d := &dispatcher{
 		workerPool: workerPool,
 		jobQueue:   jobQueue,
-		stop:       make(chan struct{}),
+		stop:       make(chan bool),
 	}
 
 	for i := 0; i < cap(d.workerPool); i++ {
@@ -118,6 +118,6 @@ func (p *Pool) WaitAll() {
 
 // Release will release resources used by pool
 func (p *Pool) Release() {
-	p.dispatcher.stop <- struct{}{}
+	p.dispatcher.stop <- true
 	<-p.dispatcher.stop
 }
