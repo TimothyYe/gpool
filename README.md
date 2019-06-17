@@ -27,3 +27,6 @@ A lightwegit Goroutine worker pool, modified from [grpool](https://github.com/iv
     // wait until we call JobDone for all jobs
     pool.WaitAll()
 ```
+
+## License
+[MIT License](https://github.com/TimothyYe/gpool/blob/master/LICENSE)
