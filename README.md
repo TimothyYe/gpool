@@ -1,6 +1,6 @@
 # gpool
 
-A lightwegit Goroutine worker pool, modified from [grpool](https://github.com/ivpusic/grpool)
+A lightweight Goroutine worker pool, modified from [grpool](https://github.com/ivpusic/grpool)
 
 ## Example
 
