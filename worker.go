@@ -14,11 +14,12 @@ func (w *worker) start() {
 	go func() {
 		var job Job
 		for {
-			// worker free, add it to pool
+			// add worker to the pool
 			w.workerPool <- w
 
 			select {
 			case job = <-w.jobChannel:
+				// once job is executed, worker will be put back to the poll again
 				job()
 			case <-w.stop:
 				w.stop <- true
